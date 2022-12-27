@@ -1,5 +1,6 @@
 import checkComplete from './checkComplete.js';
 import deleteIcon from './deleteIcon.js';
+import { displayTasks } from './displayTask.js';
 
 
 export const addTask = (evento) => {
@@ -13,6 +14,11 @@ export const addTask = (evento) => {
     const date = calendar.value;
     const dateFormat = moment(date).format("DD/MM/YYYY");
 
+        if(value == "" || date == ""){
+                alert("El nombre de la tarea o la fecha no esta definido");
+                return;
+        }
+
     input.value = '';
     calendar.value = '';
 
@@ -20,14 +26,15 @@ export const addTask = (evento) => {
       value,
       dateFormat
     }
+
+    list.innerHTML = "";
     
     const taskList = JSON.parse(localStorage.getItem("task")) || [];
     taskList.push({value,dateFormat});
 
     localStorage.setItem('task', JSON.stringify(taskList)); // se utiliza la terminacion JSON para poder trasnformar el objeto en un strings 
-
-    const task = (createTask(taskObj))
-    list.appendChild(task);
+    
+    displayTasks()
   }
   
   
